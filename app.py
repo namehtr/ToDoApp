@@ -3,7 +3,8 @@
 import bcrypt
 from flask import Flask, render_template, request, redirect, \
     url_for, jsonify, session, flash
-from flask_pymongo import PyMongo
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from bson.objectid import ObjectId
 from config import Config
 from pymongo.errors import PyMongoError
@@ -34,9 +35,9 @@ def index():
 # and inserts the user into the database.
 @app.route('/register', methods=['POST'])
 def register():
-    global mongo
-    if mongo is None:
-        mongo = PyMongo(app)
+    print(Config.MONGO_URI)
+    mongo = MongoClient(Config.MONGO_URI, server_api=ServerApi('1'))
+
     try:
         existing_user = get_user_by_email(request.form['email'],mongo)
 
@@ -208,5 +209,4 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     app.config.from_object(Config)
-    mongo = PyMongo(app)
     app.run(debug=True)

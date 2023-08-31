@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
-    app.config['MONGO_URI'] = 'mongodb://localhost:27017/test_mytodo'  # Use a different database for testing
+    app.config['MONGO_URI'] = 'mongodb+srv://rtheman2305:Ef*tobe1@cluster0.xjjezs2.mongodb.net/test_mytodo?retryWrites=true&w=majority'  # Use a different database for testing
     app.config['SECRET_KEY'] = '0137d8c2665fd7b7e7b32f777a3e601e'
     client = app.test_client()
     email = 'test1@example.com'
