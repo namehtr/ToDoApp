@@ -24,18 +24,18 @@ from models import (
 
 def create_app():
     app = Flask(__name__)
-    if not os.environ.get('TEST_MODE'):
-        handler = RotatingFileHandler(
-            'todo.log', maxBytes=10000, backupCount=3)
-        formatter = logging.Formatter(
-            "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - "
-            "%(message)s"
-        )
-        handler.setLevel(logging.INFO)
-        app.logger.setLevel(logging.INFO)
-        handler.setFormatter(formatter)
-        app.logger.addHandler(handler)
-        app.config.from_object(Config)
+    # if not os.environ.get('TEST_MODE'):
+    handler = RotatingFileHandler(
+        'todo.log', maxBytes=10000, backupCount=3)
+    formatter = logging.Formatter(
+        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - "
+        "%(message)s"
+    )
+    handler.setLevel(logging.INFO)
+    app.logger.setLevel(logging.INFO)
+    handler.setFormatter(formatter)
+    app.logger.addHandler(handler)
+    app.config.from_object(Config)
 
     return app
 
