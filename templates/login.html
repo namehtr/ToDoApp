@@ -16,7 +16,7 @@
         <!-- Shared Email Input -->
         <div class="input-group">
             <label for="email-shared">Email</label>
-            <input type="email" id="email-shared" required>
+            <input type="email" id="email-shared" required maxlength="320">
         </div>
 
         <!-- Shared Password Input -->
@@ -75,17 +75,17 @@
             }
         }
         document.addEventListener('DOMContentLoaded', function() {
-        const flashes = document.querySelectorAll('.alert');
+            const flashes = document.querySelectorAll('.alert');
 
-        flashes.forEach(flash => {
-            setTimeout(() => {
-                flash.classList.add('fade'); // Add the fade class after 10 seconds
+            flashes.forEach(flash => {
                 setTimeout(() => {
-                    flash.remove(); // Optionally, remove the flash element from the DOM after it's faded out
-                }, 1000); // Remove after 1 second (duration of our fade transition)
-            }, 10000); // 5 seconds delay
+                    flash.classList.add('fade'); // Add the fade class after 10 seconds
+                    setTimeout(() => {
+                        flash.remove(); // Optionally, remove the flash element from the DOM after it's faded out
+                    }, 1000); // Remove after 1 second (duration of our fade transition)
+                }, 10000); // 5 seconds delay
+            });
         });
-    });
     </script>
 </body>
 

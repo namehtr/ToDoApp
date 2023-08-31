@@ -208,7 +208,6 @@ def add_subtask():
         task_id = request.form.get('task_id')
         # Getting the text of the new subtask from the request data
         subtask_name = request.form.get('subtask_name')
-
         # Finding the task using the task_id
         task = get_todo_by_id(ObjectId(task_id), db)
 

@@ -14,9 +14,13 @@ header {
 header form {
     display: flex;
     align-items: center;
+    justify-content: flex-end;  /* Add this line */
+
 }
 
 header input[type="text"] {
+    flex-grow: 1;  /* Add this line */
+    height: 23px;
     padding: 0.5% 1%;  /* Modified */
     border: 2px solid #4CAF50;
     border-radius: 3px;
@@ -168,4 +172,33 @@ input[name="subtask_name"] {
     margin-bottom: 20px;
     text-align: center;
     font-weight: bold;
+}
+/* Media Query for smaller screens like iPhone SE */
+@media only screen and (max-width: 375px) {  /* iPhone SE has a width of 375px in portrait */
+    header input[type="text"] {
+        width: 60%;  /* Adjust as necessary */
+        margin-right: 0.5%;
+    }
+
+    header input[type="submit"] {
+        width: 30%;  /* Adjust as necessary */
+        padding: 0.5% 1%;
+    }
+
+    .task-container {
+        max-width: 95%;  /* Adjust as necessary */
+        padding: 1%;
+    }
+
+    input[name="subtask_name"] {
+        width: 150px;  /* Adjust as necessary */
+    }
+
+    /* Any other styles specific to smaller screens can be added here */
+}
+
+@media only screen and (min-width: 1024px) {
+    header input[type="text"] {
+        padding: 0.5% 2%;  /* Adjust padding for a bit of extra width */
+    }
 }

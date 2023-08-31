@@ -10,7 +10,7 @@
     <header>
         <div></div>
         <form action="/add_todo" method="post">
-            <input type="text" name="text" placeholder="Add a new TODO">
+            <input type="text" name="text" placeholder="Add a new TODO" maxlength="30">
             <input type="submit" class="action-btn" value="Add">
             <!-- Logout button -->
             <a href="/logout" class="action-btn logout-btn">Logout</a>
@@ -35,9 +35,9 @@
                     </form>
                     <form action="/add_subtask" method="post">
                         <!-- Textbox for subtask name -->
-                        <input type="text" name="subtask_name" placeholder="Enter subtask name">
+                        <input type="text" name="subtask_name" placeholder="Enter subtask name" oninput="toggleAddButton(this)" maxlength="30">
                         <input type="hidden" name="task_id" value="{{task._id}}">
-                        <button type="submit" class="add-subtask-btn">+</button>
+                        <button type="submit" class="add-subtask-btn" disabled>+</button>
                     </form>
 
                 </div>
@@ -59,8 +59,8 @@
         </div>
         {% endif %}
     </main>
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     <script>
+
         function toggleSubtasks(button) {
             const subtaskContainer = button.parentElement.nextElementSibling;
             if (subtaskContainer.style.display === 'none') {
@@ -70,6 +70,17 @@
                 subtaskContainer.style.display = 'none';
                 button.innerText = '>';
             }
+        }
+        function toggleAddButton(inputElement) {
+            const addButton = inputElement.nextElementSibling.nextElementSibling;  // Assuming the "+" button is the next sibling of the hidden input, which is the next sibling of the text input
+
+            if (inputElement.value.length > 0) {
+                addButton.disabled = false;
+            } else {
+                addButton.disabled = true;
+            }
+                    console.log('YO');
+
         }
     </script>
 </body>
