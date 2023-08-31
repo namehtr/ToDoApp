@@ -35,7 +35,7 @@
                     </form>
                     <form action="/add_subtask" method="post">
                         <!-- Textbox for subtask name -->
-                        <input type="text" name="subtask_name" placeholder="Enter subtask name" oninput="toggleAddButton(this)" maxlength="30">
+                        <input type="text" name="subtask_name" placeholder="Enter subtask" oninput="toggleAddButton(this)" maxlength="30">
                         <input type="hidden" name="task_id" value="{{task._id}}">
                         <button type="submit" class="add-subtask-btn" disabled>+</button>
                     </form>

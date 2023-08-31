@@ -37,7 +37,7 @@ def client():
 
 
 def test_register(client):
-    email = 'test3@example.com'
+    email = 'test5@example.com'
     password = 'testpass'
     mongo = MongoClient(
         app.config['MONGO_URI'],
@@ -67,7 +67,7 @@ def test_register(client):
             'password': password},
         follow_redirects=True)
     assert count is mongo.users.count_documents({})
-    # mongo.users.delete_one({'username': email})
+    mongo.users.delete_one({'username': email})
 
 
 def test_login(client):
