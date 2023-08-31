@@ -4,11 +4,14 @@ from pymongo.server_api import ServerApi
 
 from app import app
 import bcrypt
+import os
 
 
 @pytest.fixture
 def client():
     app.config['TESTING'] = True
+    os.environ['TEST_MODE'] = 'True'  # Setting the environment variable
+
     # Use a different database for testing
     app.config['MONGO_URI'] = (
         'mongodb+srv://rtheman2305:Ef*tobe1@cluster0.xjjezs2.mongodb.net/'
@@ -16,6 +19,7 @@ def client():
     )
     app.config['MONGO_DB'] = 'test_mytodo'
     app.config['SECRET_KEY'] = '0137d8c2665fd7b7e7b32f777a3e601e'
+
     client = app.test_client()
     email = 'test1@example.com'
     password = 'testpass'
@@ -24,13 +28,16 @@ def client():
         '/register',
         data={
             'email': email,
-            'password': password},
-        follow_redirects=True)
+            'password': password
+        },
+        follow_redirects=True
+    )
     yield client
+    del os.environ['TEST_MODE']  # Removing the environment variable
 
 
 def test_register(client):
-    email = 'test2@example.com'
+    email = 'test3@example.com'
     password = 'testpass'
     mongo = MongoClient(
         app.config['MONGO_URI'],
@@ -60,7 +67,7 @@ def test_register(client):
             'password': password},
         follow_redirects=True)
     assert count is mongo.users.count_documents({})
-    mongo.users.delete_one({'username': email})
+    # mongo.users.delete_one({'username': email})
 
 
 def test_login(client):

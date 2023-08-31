@@ -10,6 +10,7 @@ from config import Config
 from pymongo.errors import PyMongoError
 import logging
 from logging.handlers import RotatingFileHandler
+import os
 from models import (
     get_user_by_email,
     add_user,
@@ -20,8 +21,26 @@ from models import (
     update_todo_status,
     update_subtask_status)
 
-app = Flask(__name__)
-mongo = None
+
+def create_app():
+    app = Flask(__name__)
+    if not os.environ.get('TEST_MODE'):
+        handler = RotatingFileHandler(
+            'todo.log', maxBytes=10000, backupCount=3)
+        formatter = logging.Formatter(
+            "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - "
+            "%(message)s"
+        )
+        handler.setLevel(logging.INFO)
+        app.logger.setLevel(logging.INFO)
+        handler.setFormatter(formatter)
+        app.logger.addHandler(handler)
+        app.config.from_object(Config)
+
+    return app
+
+
+app = create_app()
 
 
 # This function checks if a user is logged in by checking
@@ -42,7 +61,6 @@ def index():
 # and inserts the user into the database.
 @app.route('/register', methods=['POST'])
 def register():
-
     db = MongoClient(
         app.config['MONGO_URI'],
         server_api=ServerApi('1'))[
@@ -255,12 +273,4 @@ def update_subtask():
 
 
 if __name__ == '__main__':
-    handler = RotatingFileHandler('todo.log', maxBytes=10000, backupCount=3)
-    formatter = logging.Formatter(
-        "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s")
-    handler.setLevel(logging.INFO)
-    app.logger.setLevel(logging.INFO)
-    handler.setFormatter(formatter)
-    app.logger.addHandler(handler)
-    app.config.from_object(Config)
-    app.run(debug=False,port=10000)
+    app.run(port=10000, debug=True)
