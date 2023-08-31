@@ -263,4 +263,4 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     app.config.from_object(Config)
-    app.run(debug=True)
+    app.run(debug=False,port=10000)
