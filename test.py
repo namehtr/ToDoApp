@@ -13,7 +13,7 @@ def client():
     app.config['MONGO_DB'] = 'test_mytodo'
     app.config['SECRET_KEY'] = '0137d8c2665fd7b7e7b32f777a3e601e'
     client = app.test_client()
-    email = 'test2@example.com'
+    email = 'test1@example.com'
     password = 'testpass'
 
     client.post('/register', data={'email': email, 'password': password}, follow_redirects=True)
