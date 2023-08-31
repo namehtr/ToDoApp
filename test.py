@@ -9,7 +9,6 @@ import os
 
 @pytest.fixture
 def client():
-    app.config['TESTING'] = True
     os.environ['TEST_MODE'] = 'True'  # Setting the environment variable
 
     # Use a different database for testing
