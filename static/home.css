@@ -6,7 +6,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 1% 2%;  /* Modified */
     background-color: #2D2D2D;
     color: #fff;
 }
@@ -17,10 +17,10 @@ header form {
 }
 
 header input[type="text"] {
-    padding: 5px 10px;
+    padding: 0.5% 1%;  /* Modified */
     border: 2px solid #4CAF50;
     border-radius: 3px;
-    margin-right: 10px;
+    margin-right: 1%;  /* Modified */
     outline: none;
     transition: border 0.3s;
 }
@@ -30,7 +30,7 @@ header input[type="text"]:focus {
 }
 
 header input[type="submit"] {
-    padding: 5px 15px;
+    padding: 0.5% 2%;  /* Modified */
     border: none;
     border-radius: 3px;
     background-color: #4CAF50;
@@ -46,9 +46,9 @@ header input[type="submit"]:hover {
 .task-container {
     width: 100%;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 2% auto;  /* Modified */
     background-color: #FAFAFA;
-    padding: 15px;
+    padding: 1.5%;  /* Modified */
     border-radius: 8px;
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
 }
@@ -67,12 +67,9 @@ header input[type="submit"]:hover {
 }
 
 .subtask {
-    margin-left: 20px;
+    margin-left: 2%;  /* Modified */
 }
 
-.task-checkbox, .subtask-checkbox {
-    margin-right: 10px;
-}
 
 .toggle-subtasks-btn {
     background: none;
@@ -108,10 +105,12 @@ header input[type="submit"]:hover {
 
 .task span, .subtask span {
     flex-grow: 1;  /* This ensures the text element takes up all available space */
+    vertical-align: center;  /* Add this */
 }
 
 .task-checkbox, .subtask-checkbox {
     margin-left: 10px;
+    vertical-align: middle;  /* Add this */
 }
 
 input[name="subtask_name"] {
@@ -125,7 +124,7 @@ input[name="subtask_name"] {
 }
 
 .logout-btn {
-    margin-left: 15px;
+    margin-left: 1.5%;  /* Modified */
     background-color: #FF5733; /* Red */
     color: #fff;
     text-decoration: none;
