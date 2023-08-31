@@ -157,18 +157,14 @@ def add_todo():
         # Get data from the frontend
         todo_text = request.form.get('text')
 
-        # Check if the user is logged in
-        if 'email' not in session:
-            return jsonify(status="error", message="User not logged in")
+
 
         if 'email' not in session:
             return redirect(url_for('login'))
 
         user_email = session['email']  # Get user email from session
 
-        # Check if the required data (text of the to-do) is present
-        if not todo_text:
-            return jsonify(status="error", message="Missing text")
+
 
         add_todo_for_email(user_email, todo_text, db)
         app.logger.info(f'Todo added for user {user_email}!')
