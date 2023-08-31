@@ -35,17 +35,16 @@ def index():
 # and inserts the user into the database.
 @app.route('/register', methods=['POST'])
 def register():
-    print(Config.MONGO_URI)
-    mongo = MongoClient(Config.MONGO_URI, server_api=ServerApi('1'))
 
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     try:
-        existing_user = get_user_by_email(request.form['email'],mongo)
+        existing_user = get_user_by_email(request.form['email'],db)
 
         if existing_user:
             app.logger.info('Email already registered!')
             flash('Email already registered!', 'warning')
         else:
-            add_user(request.form['email'], request.form['password'], mongo)
+            add_user(request.form['email'], request.form['password'], db)
             app.logger.info('Registration completed!')
             flash('Registration completed!', 'success')
     except PyMongoError:
@@ -60,10 +59,11 @@ def register():
 # and redirects them to the home page.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     if request.method == 'POST':
         try:
             email = request.form['email']
-            login_user = get_user_by_email(email,mongo)
+            login_user = get_user_by_email(email,db)
             if login_user:
                 if bcrypt.hashpw(
                         request.form['password'].encode('utf-8'),
@@ -91,12 +91,13 @@ def login():
 @app.route('/home', methods=['GET'])
 def home():
     todos = []
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     try:
         if not is_logged_in():
             # Redirect to login page if user is not logged in
             return redirect(url_for('login'))
         # Fetch pending TODOs from the database
-        todos = get_all_todos_by_email(session.get('email'), mongo)
+        todos = get_all_todos_by_email(session.get('email'), db)
     except PyMongoError:
         app.logger.error('Database error occurred while accessing home page!', exc_info=True)
         flash('Database error occurred!', 'danger')
@@ -108,6 +109,7 @@ def home():
 # on user input.
 @app.route('/add_todo', methods=['POST'])
 def add_todo():
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     try:
         # Get data from the frontend
         todo_text = request.form.get('text')
@@ -122,7 +124,7 @@ def add_todo():
         if not todo_text:
             return jsonify(status="error", message="Missing text")
 
-        add_todo_for_email(user_email, todo_text, mongo)
+        add_todo_for_email(user_email, todo_text, db)
         app.logger.info(f'Todo added for user {user_email}!')
     except PyMongoError:
         app.logger.error('Database error occurred while adding Todo!', exc_info=True)
@@ -147,6 +149,7 @@ def logout():
 # to-do based on user input.
 @app.route('/add_subtask', methods=['POST'])
 def add_subtask():
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     try:
         # Retrieving the task_id and subtask_name from the form data
         task_id = request.form.get('task_id')
@@ -154,14 +157,14 @@ def add_subtask():
         subtask_name = request.form.get('subtask_name')
 
         # Finding the task using the task_id
-        task = get_todo_by_id(ObjectId(task_id), mongo)
+        task = get_todo_by_id(ObjectId(task_id), db)
 
         # Check if the task exists
         if not task:
             return redirect(url_for('home'))
 
         # Add subtask to to-do
-        add_subtask_to_todo(ObjectId(task_id),subtask_name, mongo)
+        add_subtask_to_todo(ObjectId(task_id),subtask_name, db)
         app.logger.info(f'Subtask added for task {task_id}!')
 
     except PyMongoError:
@@ -174,10 +177,11 @@ def add_subtask():
 # item based on user input.
 @app.route('/update_task', methods=['POST'])
 def update_task():
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     try:
         task_id = request.form.get('task_id')
         task_status = True if 'task_status' in request.form else False
-        update_todo_status(task_id, task_status, mongo)
+        update_todo_status(task_id, task_status, db)
         app.logger.info(f'Todo status updated for task {task_id} to {task_status}!')
     except PyMongoError:
         app.logger.error('Database error occurred while updating task!', exc_info=True)
@@ -189,10 +193,11 @@ def update_task():
 # to-do item based on user input.
 @app.route('/update_subtask', methods=['POST'])
 def update_subtask():
+    db = MongoClient(app.config['MONGO_URI'], server_api=ServerApi('1'))[app.config['MONGO_DB']]
     try:
         subtask_id = request.form.get('subtask_id')
         task_status = True if 'subtask_status' in request.form else False
-        update_subtask_status(subtask_id, task_status, mongo)
+        update_subtask_status(subtask_id, task_status, db)
         app.logger.info(f'Todo status updated for task {subtask_id} to {task_status}!')
     except PyMongoError:
         app.logger.error('Database error occurred while updating subtask!', exc_info=True)
