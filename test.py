@@ -9,11 +9,10 @@ def client():
     app.config['MONGO_URI'] = 'mongodb://localhost:27017/test_mytodo'  # Use a different database for testing
     app.config['SECRET_KEY'] = '0137d8c2665fd7b7e7b32f777a3e601e'
     client = app.test_client()
-    email = 'loggedin1@example.com'
+    email = 'test1@example.com'
     password = 'testpass'
 
     client.post('/register', data={'email': email, 'password': password}, follow_redirects=True)
-    client.post('/login', data={'email': email, 'password': password}, follow_redirects=True)
     yield client
 
 
