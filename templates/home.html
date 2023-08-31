@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <header>
+        <div></div>
+        <form action="/add_todo" method="post">
+            <input type="text" name="text" placeholder="Add a new TODO">
+            <input type="submit" class="action-btn" value="Add">
+            <!-- Logout button -->
+            <a href="/logout" class="action-btn logout-btn">Logout</a>
+        </form>
+    </header>
+    <main>
+        {% if not todos %}
+            <div class="all-tasks-completed">
+                All tasks have been completed! 🎉
+            </div>
+        {% else %}
+            <div class="task-container">
+            <h2 class="inbox-title">Inbox</h2>
+            {% for task in todos %}
+            <div class="task-wrapper">
+                <button class="toggle-subtasks-btn {% if not task.subtasks %}hidden-btn{% endif %}" onclick="toggleSubtasks(this)">></button>
+                <div class="task">
+                    <form action="/update_task" method="post" class="task-form-inline">
+                        <input type="checkbox" id="task-{{task._id}}" class="task-checkbox" name="task_status" value="{{task._id}}" {% if task.completed %}checked{% endif %} onchange="this.form.submit()">
+                        <label for="task-{{task._id}}"><span>{{ task.text }}</span></label>
+                        <input type="hidden" name="task_id" value="{{task._id}}">
+                    </form>
+                    <form action="/add_subtask" method="post">
+                        <!-- Textbox for subtask name -->
+                        <input type="text" name="subtask_name" placeholder="Enter subtask name">
+                        <input type="hidden" name="task_id" value="{{task._id}}">
+                        <button type="submit" class="add-subtask-btn">+</button>
+                    </form>
+
+                </div>
+            </div>
+            <div class="subtask-container" style="display: none;">
+                {% for subtask in task.subtasks %}
+                    <div class="subtask">
+                        <div style="padding-left: 40px;">
+                            <form action="/update_subtask" method="post" class="subtask-form-inline">
+                                <input type="checkbox" id="subtask-{{subtask._id}}" class="subtask-checkbox" name="subtask_status" value="{{subtask._id}}" {% if subtask.completed %}checked{% endif %} onchange="this.form.submit()">
+                                <label for="subtask-{{subtask._id}}"><span>{{ subtask.text }}</span></label>
+                                <input type="hidden" name="subtask_id" value="{{subtask._id}}">
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </main>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        function toggleSubtasks(button) {
+            const subtaskContainer = button.parentElement.nextElementSibling;
+            if (subtaskContainer.style.display === 'none') {
+                subtaskContainer.style.display = 'block';
+                button.innerText = 'v';
+            } else {
+                subtaskContainer.style.display = 'none';
+                button.innerText = '>';
+            }
+        }
+    </script>
+</body>
+</html>

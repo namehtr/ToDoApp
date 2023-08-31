@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>Login or Register</h2>
+
+        <!-- Shared Email Input -->
+        <div class="input-group">
+            <label for="email-shared">Email</label>
+            <input type="email" id="email-shared" required>
+        </div>
+
+        <!-- Shared Password Input -->
+        <div class="input-group">
+            <label for="password-shared">Password</label>
+            <input type="password" id="password-shared" required>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" action="/login" method="post" style="display: none;">
+            <input type="email" id="email-login" name="email">
+            <input type="password" id="password-login" name="password">
+            <button type="submit" class="button-group auth-btn">Login</button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" action="/register" method="post" style="display: none;">
+            <input type="email" id="email-register" name="email">
+            <input type="password" id="password-register" name="password">
+            <button type="submit" class="button-group register-btn">Register</button>
+        </form>
+
+        <!-- Action buttons outside the forms -->
+        <div class="button-group">
+            <button onclick="submitForm('login')" class="auth-btn">Login</button>
+            <button onclick="submitForm('register')" class="register-btn">Register</button>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flashes">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        function submitForm(action) {
+            const sharedEmail = document.getElementById('email-shared').value;
+            const sharedPassword = document.getElementById('password-shared').value;
+
+            if (action === 'login') {
+                const loginEmail = document.getElementById('email-login');
+                const loginPassword = document.getElementById('password-login');
+                loginEmail.value = sharedEmail;
+                loginPassword.value = sharedPassword;
+                document.getElementById('loginForm').submit();
+            } else if (action === 'register') {
+                const registerEmail = document.getElementById('email-register');
+                const registerPassword = document.getElementById('password-register');
+                registerEmail.value = sharedEmail;
+                registerPassword.value = sharedPassword;
+                document.getElementById('registerForm').submit();
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+        const flashes = document.querySelectorAll('.alert');
+
+        flashes.forEach(flash => {
+            setTimeout(() => {
+                flash.classList.add('fade'); // Add the fade class after 10 seconds
+                setTimeout(() => {
+                    flash.remove(); // Optionally, remove the flash element from the DOM after it's faded out
+                }, 1000); // Remove after 1 second (duration of our fade transition)
+            }, 10000); // 5 seconds delay
+        });
+    });
+    </script>
+</body>
+
+</html>

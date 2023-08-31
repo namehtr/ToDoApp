@@ -1,0 +1,151 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    color: #333;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    width: 350px;
+    transition: all 0.3s;
+}
+
+.login-container:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.login-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #444;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-group label {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    background-color: #f4f4f4;
+    padding: 0 5px;
+    font-weight: bold;
+    color: #777;
+    transform: translateY(-50%);
+}
+
+.input-group input, button {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.flashes {
+    margin-bottom: 20px;
+}
+
+.flash {
+    opacity: 1;
+    transition: opacity 1s; /* 1 second transition */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.fade {
+    opacity: 0;
+    display: none !important;
+}
+
+.flash.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash.danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.flash.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.auth-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.auth-btn:hover {
+    background-color: #45a049; /* Dark Green */
+}
+
+.register-btn {
+    background-color: #f44336; /* Light Red */
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.register-btn:hover {
+    background-color: #d32f2f; /* Dark Red */
+}
+
+.alert {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+
+.alert-warning {
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+    color: #8a6d3b;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #faebcc;
+}
+
+
